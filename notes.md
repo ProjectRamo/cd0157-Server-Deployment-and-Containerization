@@ -52,3 +52,23 @@ ENTRYPOINT ["gunicorn", "-b", ":8080", "main:APP"]
 ## .env_file
 JWT_SECRET='myjwtsecret'
 LOG_LEVEL=DEBUG
+
+## build the image
+docker build -t udfsndimage .
+
+## check image was built
+docker image ls
+
+## run the image
+docker run --name udfsnd --env-file=.env_file -p 80:8080 udfsndimage
+
+## test container
+curl --request GET 'http://localhost:80/'
+### Calls the endpoint 'localhost:80/auth' with the email/password as the message body. 
+### The return JWT token assigned to the environment variable 'TOKEN' 
+export TOKEN=`curl --data '{"email":"abc@xyz.com","password":"WindowsPwd"}' --header "Content-Type: application/json" -X POST localhost:80/auth  | jq -r '.token'`
+echo $TOKEN
+# Decrypt the token and returns its content
+curl --request GET 'http://localhost:80/contents' -H "Authorization: Bearer ${TOKEN}" | jq .
+
+
