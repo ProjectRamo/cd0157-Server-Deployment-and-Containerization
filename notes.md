@@ -71,4 +71,30 @@ echo $TOKEN
 # Decrypt the token and returns its content
 curl --request GET 'http://localhost:80/contents' -H "Authorization: Bearer ${TOKEN}" | jq .
 
+# AWS Cluster
+installed AWS CLI
+
+## aws configure
+> aws configure
+Prompt	Value
+AWS Access Key ID	[Copy from the classroom]
+AWS Secret Access Key	[Copy from the classroom]
+Default region name	"us-east-2"
+Default output format	"json"
+
+## kubectl
+> kubectly version
+seems to work though I don't recall installing it
+
+## install eksctl
+DOing this on my mac
+### Check Homebrew 
+brew --version
+### Install eksctl
+brew tap weaveworks/tap
+brew install weaveworks/tap/eksctl
+### check install
+> kubectl version  
+### create cluster
+eksctl create cluster --name simple-jwt-api --nodes=2 --version=1.22 --instance-types=t2.medium --region=us-east-2
 
