@@ -168,5 +168,6 @@ git push
 
 to launch the build step
 
+not used anymore
 
 policy: ufsnd-kub
