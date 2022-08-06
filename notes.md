@@ -143,6 +143,29 @@ aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-po
 ### attach role to policy
 aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://iam-role-policy.json
 
+### There are a whole bunch of steps
+### 1. Generate github token
+### 2. modify ci-cd-codepipeline.cfn.yml 
+EksClusterName	simple-jwt-api
+Name of the EKS cluster you created
+GitSourceRepo	cd0157-Server-Deployment-and-Containerization
+Github repo name
+GitBranch	master
+Or any other you want to link to the Pipeline
+GitHubUser	Your Github username
+KubectlRoleName	UdacityFlaskDeployCBKubectlRole
+### 3. Create Stack in cloud formation services
+Have to upload the yml file
+### 4. Save secret parameter
+> aws ssm put-parameter --name JWT_SECRET --overwrite --value "myjwtsecret" --type SecureString
+### 5. Update kubectly verion in buildspec to reflect
+> kubectl version --short --client
 
+# Verify
+
+### 1. 
+git push
+
+to launch the build step
 
 policy: ufsnd-kub
