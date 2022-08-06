@@ -97,4 +97,51 @@ brew install weaveworks/tap/eksctl
 > kubectl version  
 ### create cluster
 eksctl create cluster --name simple-jwt-api --nodes=2 --version=1.22 --instance-types=t2.medium --region=us-east-2
+## aws configure with an admin user
+This took a while to get right, but you can't just do
+> aws configure
+and type in the keys from the panel in Udacity.
+Create a new IAM user, and attach an admin polocy specifically
+"AdministratorAccess"
+Other policies like EKSCluster etc, isn't enough by itself.
+Use the credentials of the admin user in aws configure.
 
+### Create this trust,json file in the same folder
+{
+"Version": "2012-10-17",
+"Statement": [
+ {
+     "Effect": "Allow",
+     "Principal": {
+         "AWS": "arn:aws:iam::<ACCOUNT_ID>:root"
+     },
+     "Action": "sts:AssumeRole"
+ }
+]
+}
+
+but replace account id with the id from
+> aws sts get-caller-identity --query Account --output text
+
+### create this role
+aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-policy-document file://trust.json --output text --query 'Role.Arn'
+
+### create this policy file iam-role-policy.json
+{
+"Version": "2012-10-17",
+"Statement": [
+  {
+      "Effect": "Allow",
+      "Action": [
+          "eks:Describe*",
+             "ssm:GetParameters"
+      ],
+      "Resource": "*"
+  }
+]
+}
+### attach role to policy
+aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://iam-role-policy.json
+
+
+policy: ufsnd-kub
