@@ -171,9 +171,3 @@ This had to be run several times and it took a long time and had to setbacks:
 
 ### Trigger the build
 git push
-
-to launch the build step
-
-not used anymore
-
-policy: ufsnd-kub
