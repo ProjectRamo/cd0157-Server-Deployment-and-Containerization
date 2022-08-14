@@ -85,6 +85,7 @@ Default output format	"json"
 ## kubectl
 > kubectly version
 seems to work though I don't recall installing it
+To get the right version use curl
 
 ## install eksctl
 DOing this on my mac
@@ -160,10 +161,15 @@ Have to upload the yml file
 > aws ssm put-parameter --name JWT_SECRET --overwrite --value "myjwtsecret" --type SecureString
 ### 5. Update kubectly verion in buildspec to reflect
 > kubectl version --short --client
+### Create the Stack
+This is "by hand"  but you upload the YML file
 
-# Verify
+This had to be run several times and it took a long time and had to setbacks:
+1. Had to attach role to policy every time
+2. Had to check us-east-2 each time
 
-### 1. 
+
+### Trigger the build
 git push
 
 to launch the build step
