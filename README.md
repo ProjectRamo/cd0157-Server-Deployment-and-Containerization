@@ -36,3 +36,8 @@ Completing the project involves several steps:
 6. Create a CodeBuild stage which will build, test, and deploy your code
 
 For more detail about each of these steps, see the project lesson.
+
+Env file contains:
+
+JWT_SECRET='myjwtsecret'
+LOG_LEVEL=DEBUG
